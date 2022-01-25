@@ -32,8 +32,11 @@ class Boite {
         Point center; //centre de la boîte
         Point center_mass; //centre de masse
         double mass;       //masse
-        Point& particule; //pointeur vers une liste de particule
+        Particule& particule; //pointeur vers une liste de particule
         Boite& fille; //pointeur vers la première boîte fille
         Boite& soeur;//pointeur vers la boîte soeur
+        Boite(int l=0, Point p) : level(l){
+
+        } //constructeur de la boîte racine de niveau 0
 };
 #endif
