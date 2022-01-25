@@ -2,6 +2,7 @@
 #define GRAVITATION_HPP
 #include <iostream>
 #include <cmath>
+#include <vector>
 using namespace std;
 
 //=================================================================================
@@ -36,4 +37,8 @@ class Boite {
         Boite& fille; //pointeur vers la première boîte fille
         Boite& soeur;//pointeur vers la boîte soeur
 };
+
+
+vector<double>& force(const Particule& P, const Boite& B);
+
 #endif
