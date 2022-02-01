@@ -25,34 +25,6 @@ double operator|(const Point& p1, const Point& p2); // produit scalaire  2D
 double norme(const Point& p);                       // norme euclidienne
 ostream& operator<<(ostream& out, const Point& p);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //=================================================================================
 //                        class Particule
 //=================================================================================
@@ -66,7 +38,7 @@ class Particule
     //constructeur
     Particule(Point p,double m);
 
-}
+};
 
 //=================================================================================
 //                        class Boite
@@ -77,40 +49,58 @@ class Boite {
         Point center; //centre de la boîte
         Point center_mass; //centre de masse
         double mass;       //masse
-        Particule& particule; //pointeur vers une particule
-        Boite& fille; //pointeur vers la première boîte fille
-        Boite& soeur;//pointeur vers la boîte soeur
-        Boite(Particule& p, Point P(), int l=0) : level(l), center(P){
+        Particule& particule; //référence vers une particule
+        Boite* fille; //pointeur vers la première boîte fille
+        Boite* soeur;//pointeur vers la boîte soeur
+        int nb_part=0;
+
+        //constructeur d'une boîte vide terminale
+        Boite(Particule& p, int l=0) : level(l){
             particule=p;
-            fille=NULL;
-            soeur=NULL;
+            fille=nullptr;
+            soeur=nullptr;
             mass=p.masse();
             center_mass=p.position();
-        } //constructeur de la boîte racine de niveau 0
-<<<<<<< HEAD
-        void ajouter(Particule p); //ajoute une particule dans la boite
-        void retirer(Particule p); // retire une particule de la boite
-        vector f_interact(); // calcule la force d'interaction totale avec les autres particules
-=======
+        } 
         void ajouter(Particule& p); //ajoute une particule dans la boite
         void retirer(Particule& p); // retire une particule de la boite
-        Vector f_interact(); // calcule la force d'interaction totale avec les autres particules
->>>>>>> c52a465dc69e254d962f81d8ccf0a6e05c5dbe66
-
+        void diviser_boite();
 };
 
+//création des sous-boîtes
+void Boite::diviser_boite(){
+
+}
 
 void Boite::ajouter(Particule& p){
-    //Particule terminale ou non ? 
-    if (fille==NULL){//boîte terminale
-        if (mass==0){ //boîte vide 
-            particule=p;
-            mass=p.masse();
-            center_mass=p.position();
+    //condition si la position de la particule est bien dans la boîte 
+    if(particule_in_boite){
 
+        //Particule terminale ou non ? 
+        if (fille==nullptr){//boîte terminale
+            if (mass==0){ //boîte vide 
+                particule=p;
+                mass=p.masse;
+                center_mass=p.position;
+            }
+            else if (mass>0){ //boîte non vide
+                center_mass=p.position*p.masse+center_mass*mass/(mass+p.masse);//calcul nouveau centre de masse
+                mass+=p.masse; //nouvelle masse de la boîte de niveau plus faible
+                //création de nouvelles sous-boîtes
+                diviser_boite();
+                ajouter(p);
+                ajouter(particule);// on n'oublie pas d'ajouter la particule déjà présente dans la boîte}
+        }
+        else if (fille!=nullptr){
+            fille->ajouter(p);}
+    }  
 
+    else {
+        if (soeur!=nullptr){
+            soeur->ajouter(p);
         }
     }
+
 }
 
 vector<double>& force(const Particule& P, const Boite& B);
