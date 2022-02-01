@@ -25,6 +25,34 @@ double operator|(const Point& p1, const Point& p2); // produit scalaire  2D
 double norme(const Point& p);                       // norme euclidienne
 ostream& operator<<(ostream& out, const Point& p);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //=================================================================================
 //                        class Boite
 //=================================================================================
