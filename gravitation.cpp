@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cmath>
 #include "gravitation.hpp"
+
+const int taille=100;
+
 //=================================================================================
 //                            class Point
 //=================================================================================
@@ -30,8 +33,9 @@ ostream& operator<<(ostream& out, const Point& p)
 //                        class Particule
 //=================================================================================
 
-Particule::Particule(Point p,double m ){
-	pos=p;
+Particule::Particule(double xi, double yi,double m ){
+	x=xi;
+	y=yi;
 	masse=m;
 }
 
