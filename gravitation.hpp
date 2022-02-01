@@ -37,19 +37,32 @@ class Boite {
         Particule& particule; //pointeur vers une particule
         Boite& fille; //pointeur vers la première boîte fille
         Boite& soeur;//pointeur vers la boîte soeur
-        Boite(Particule& p,, Point P(), int l=0) : level(l), center(P){
+        Boite(Particule& p, Point P(), int l=0) : level(l), center(P){
             particule=p;
             fille=NULL;
             soeur=NULL;
-            mass=Particule.mass();
-            center_mass=Particule.position();
+            mass=p.masse();
+            center_mass=p.position();
         } //constructeur de la boîte racine de niveau 0
-        void ajouter(Point p); //ajoute une particule dans la boite
-        void retirer(Point p); // retire une particule de la boite
+        void ajouter(Particule& p); //ajoute une particule dans la boite
+        void retirer(Particule& p); // retire une particule de la boite
         Vector f_interact(); // calcule la force d'interaction totale avec les autres particules
 
 };
 
+
+void Boite::ajouter(Particule& p){
+    //Particule terminale ou non ? 
+    if (fille==NULL){//boîte terminale
+        if (mass==0){ //boîte vide 
+            particule=p;
+            mass=p.masse();
+            center_mass=p.position();
+
+
+        }
+    }
+}
 
 vector<double>& force(const Particule& P, const Boite& B);
 
