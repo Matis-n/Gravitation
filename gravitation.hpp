@@ -7,7 +7,7 @@ using namespace std;
 
 
 //=================================================================================
-//                        class Particule (salut c'est hugo hihi)
+//                        class Point (salut c'est hugo hihi)
 //=================================================================================
 class Point
 { public:
@@ -24,6 +24,21 @@ double operator*(const Point& p1, const Point& p2); // produit vectoriel 2D
 double operator|(const Point& p1, const Point& p2); // produit scalaire  2D
 double norme(const Point& p);                       // norme euclidienne
 ostream& operator<<(ostream& out, const Point& p);
+
+//=================================================================================
+//                        class Particule
+//=================================================================================
+
+class Particule
+{ public:
+    //attributs
+    Point position;
+    double masse;
+
+    //constructeur
+    Particule(Point p,double m);
+
+}
 
 //=================================================================================
 //                        class Boite
@@ -44,9 +59,9 @@ class Boite {
             mass=Particule.mass();
             center_mass=Particule.position();
         } //constructeur de la boîte racine de niveau 0
-        void ajouter(Point p); //ajoute une particule dans la boite
-        void retirer(Point p); // retire une particule de la boite
-        Vector f_interact(); // calcule la force d'interaction totale avec les autres particules
+        void ajouter(Particule p); //ajoute une particule dans la boite
+        void retirer(Particule p); // retire une particule de la boite
+        vector f_interact(); // calcule la force d'interaction totale avec les autres particules
 
 };
 
