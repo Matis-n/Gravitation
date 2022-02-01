@@ -5,7 +5,7 @@
 #include <vector>
 using namespace std;
 
-const int taille=100;
+extern const int taille;
 
 //=================================================================================
 //                        class Point (salut c'est hugo hihi)
@@ -54,10 +54,6 @@ class Boite {
         Particule& particule; //référence vers une particule
         Boite* fille; //pointeur vers la première boîte fille
         Boite* soeur;//pointeur vers la boîte soeur
-<<<<<<< HEAD
-=======
-      //  int nb_part=0;
->>>>>>> 4dad9ecea9d81474329a8f6898ce13042dbbe4c5
 
         //constructeur d'une boîte vide terminale
         Boite(Point c,int l,double m=0) : level(l), center(c), center_mass(c),mass(m) {
@@ -74,21 +70,21 @@ class Boite {
 
 //création des sous-boîtes
 void Boite::diviser_boite(){
-    d=taille/pow(2,level+1);
+    double d=taille/pow(2,level+1);
 
-    Point c1(center-d,center+d);
+    Point c1(center.x-d,center.y+d);
     Boite B1(c1,level+1);
 
-    Point c2(center+d,center+d);
+    Point c2(center.x+d,center.y+d);
     Boite B2(c2,level+1);
 
-    Point c3(center+d,center-d);
+    Point c3(center.x+d,center.y-d);
     Boite B3(c3,level+1);
 
-    Point c4(center-d,center-d);
+    Point c4(center.x-d,center.y-d);
     Boite B4(c4,level+1);
 
-    Boite.fille=&B1;
+    fille=&B1;
     B1.soeur=&B2;
     B2.soeur=&B3;
     B3.soeur=&B4;
