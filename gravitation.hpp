@@ -44,10 +44,10 @@ class Boite {
             mass=Particule.mass();
             center_mass=Particule.position();
         } //constructeur de la boîte racine de niveau 0
-        void ajouter(Point p);
-        void retirer(Point p);
-        Vector f_interact();
-        
+        void ajouter(Point p); //ajoute une particule dans la boite
+        void retirer(Point p); // retire une particule de la boite
+        Vector f_interact(); // calcule la force d'interaction totale avec les autres particules
+
 };
 
 
