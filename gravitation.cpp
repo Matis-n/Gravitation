@@ -26,7 +26,19 @@ double norme(const Point& p)
 ostream& operator<<(ostream& out, const Point& p)
 { out<<"("<<p.x<<","<<p.y<<")"; return out;}
 
+//=================================================================================
+//                        class Particule
+//=================================================================================
 
+Particule::Particule(Point p,double m ){
+	pos=p;
+	masse=m;
+}
+
+
+//=================================================================================
+//                        class Boite
+//=================================================================================
 
 vector<double>& force(const Particule& P, const Boite& B) {
     
