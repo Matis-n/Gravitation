@@ -37,7 +37,6 @@ class Particule
 
     //constructeur
     Particule(Point p,double m);
-
 };
 
 //=================================================================================
@@ -52,24 +51,28 @@ class Boite {
         Particule& particule; //référence vers une particule
         Boite* fille; //pointeur vers la première boîte fille
         Boite* soeur;//pointeur vers la boîte soeur
-        int nb_part=0;
+      //  int nb_part=0;
 
         //constructeur d'une boîte vide terminale
-        Boite(Particule& p, int l=0) : level(l){
-            particule=p;
+        Boite(Point c,int l,double m=0) : level(l), center(c), center_mass(c),mass(m) {
             fille=nullptr;
             soeur=nullptr;
-            mass=p.masse();
-            center_mass=p.position();
+            particule=Particule(c,0.); 
         } 
+        ~Boite(); //destructeur
         void ajouter(Particule& p); //ajoute une particule dans la boite
         void retirer(Particule& p); // retire une particule de la boite
         void diviser_boite();
+        bool particule_in_boite(Particule& p);
 };
 
 //création des sous-boîtes
 void Boite::diviser_boite(){
 
+}
+
+bool Boite::particule_in_boite(Particule& p){
+    return( (p.position.x>center.x-(taille/pow(2,level)))and  (p.position.x<center.x+(taille/pow(2,level)) ) and ( p.position.y>center.y-(taille/pow(2,level)) ) and (p.position.y<center.y+(taille/pow(2,level))) );
 }
 
 void Boite::ajouter(Particule& p){
@@ -103,6 +106,7 @@ void Boite::ajouter(Particule& p){
 
 }
 
-vector<double>& force(const Particule& P, const Boite& B);
+
+
 
 #endif
