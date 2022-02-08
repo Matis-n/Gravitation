@@ -67,7 +67,7 @@ bool Boite::particule_in_boite(Particule& p){
 
 void Boite::ajouter(Particule& p){
     //condition si la position de la particule est bien dans la boîte 
-    if(particule_in_boite){
+    if(particule_in_boite()){
 
         //Particule terminale ou non ? 
         if (fille==nullptr){//boîte terminale
@@ -94,4 +94,29 @@ void Boite::ajouter(Particule& p){
         }
     }
 
+}
+
+void Boite::retirer(Particule& p){
+    //condition si la position de la particule est bien dans la boîte 
+    if(particule_in_boite()){
+        if(mass==p.masse){// la particule est la seule dans la boite
+            //on supprime toutes les sous boites
+            mass=0;
+            supprimer_fille();
+            fille=nullptr;
+        }
+        else{
+            //on met a jour les masses va voir les sous boites
+            center_mass=1/(mass-p.masse)*(mass*center_mass.position+p.masse*p.position);//calcul nouveau centre de masse
+            mass-=p.masse; //nouvelle masse de la boîte de niveau plus faible
+            //on va voir dans sa fille
+            fille->retirer(p);
+        }
+    }  
+
+    else {
+        if (soeur!=nullptr){
+            soeur->retirer(p);
+        }
+    }
 }
