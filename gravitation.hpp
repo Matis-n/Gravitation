@@ -55,12 +55,11 @@ class Boite {
         Boite* fille; //pointeur vers la première boîte fille
         Boite* soeur;//pointeur vers la boîte soeur
 
+        Boite(); 
         //constructeur d'une boîte vide terminale
-        Boite(Point c,int l,double m=0) : level(l), center(c), center_mass(c),mass(m) {
-            fille=nullptr;
-            soeur=nullptr;
-            particule=Particule(c,0.); 
-        } 
+
+        Boite(Point c,int l,double m=0.);
+
         ~Boite(); //destructeur
         void ajouter(Particule& p); //ajoute une particule dans la boite
         void retirer(Particule& p); // retire une particule de la boite
@@ -68,64 +67,5 @@ class Boite {
         bool particule_in_boite(Particule& p);
 };
 
-//création des sous-boîtes
-void Boite::diviser_boite(){
-    double d=taille/pow(2,level+1);
-
-    Point c1(center.x-d,center.y+d);
-    Boite B1(c1,level+1);
-
-    Point c2(center.x+d,center.y+d);
-    Boite B2(c2,level+1);
-
-    Point c3(center.x+d,center.y-d);
-    Boite B3(c3,level+1);
-
-    Point c4(center.x-d,center.y-d);
-    Boite B4(c4,level+1);
-
-    fille=&B1;
-    B1.soeur=&B2;
-    B2.soeur=&B3;
-    B3.soeur=&B4;
-}
-
-bool Boite::particule_in_boite(Particule& p){
-    return( (p.position.x>center.x-(taille/pow(2,level)))and  (p.position.x<center.x+(taille/pow(2,level)) ) and ( p.position.y>center.y-(taille/pow(2,level)) ) and (p.position.y<center.y+(taille/pow(2,level))) );
-}
-
-void Boite::ajouter(Particule& p){
-    //condition si la position de la particule est bien dans la boîte 
-    if(particule_in_boite){
-
-        //Particule terminale ou non ? 
-        if (fille==nullptr){//boîte terminale
-            if (mass==0){ //boîte vide 
-                particule=p;
-                mass=p.masse;
-                center_mass=p.position;
-            }
-            else if (mass>0){ //boîte non vide
-                center_mass=p.position*p.masse+center_mass*mass/(mass+p.masse);//calcul nouveau centre de masse
-                mass+=p.masse; //nouvelle masse de la boîte de niveau plus faible
-                //création de nouvelles sous-boîtes
-                diviser_boite();
-                ajouter(p);
-                ajouter(particule);// on n'oublie pas d'ajouter la particule déjà présente dans la boîte}
-        }
-        else{
-            fille->ajouter(p);}
-    }  
-
-    else {
-        if (soeur!=nullptr){
-            soeur->ajouter(p);
-        }
-    }
-
-}
-
-
-
-
+ 
 #endif
