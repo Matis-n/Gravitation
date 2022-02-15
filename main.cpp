@@ -1,12 +1,13 @@
 #include <iostream>
 #include <cmath>
 #include "gravitation.hpp"
-using namespace std
+using namespace std;
 
 int main(){
     Point P(0,0);
-    Boite (P,0);
-    Particule(Point P1(1,1))
-    ajouter()
+    Boite B(P,0);
+    Point P1(1,1);
+    Particule part(P1,3);
+    B.ajouter(part);
     return 0;
 }
