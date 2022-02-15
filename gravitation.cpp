@@ -32,11 +32,11 @@ ostream& operator<<(ostream& out, const Point& p)
 //=================================================================================
 //                        class Boite
 //=================================================================================
-Boite::Boite(Point c,int l,double m=0.){
+Boite::Boite(Point c,int l,double m){
             level=l; center=c; center_mass=c;mass=m; 
             fille=nullptr;
             soeur=nullptr;
-            particule=Particule(c,0.); 
+            particule=Particule p (c,0.); 
         }
 
 //création des sous-boîtes

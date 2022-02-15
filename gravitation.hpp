@@ -35,7 +35,6 @@ class Particule
     //attributs
     Point position;
     double masse;
-    Vecteur
 
     //constructeur
     Particule(Point p,double m);
@@ -52,7 +51,7 @@ class Boite {
         Point center; //centre de la boîte
         Point center_mass; //centre de masse
         double mass;       //masse
-        Particule& particule; //référence vers une particule
+        Particule* particule; //référence vers une particule
         Boite* fille; //pointeur vers la première boîte fille
         Boite* soeur;//pointeur vers la boîte soeur
 
