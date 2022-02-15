@@ -37,7 +37,8 @@ class Particule
     double masse;
 
     //constructeur
-    Particule(Point p,double m);
+    Particule(Point p,double m):position(p), masse(m){
+    };
 };
 
 //=================================================================================
@@ -51,14 +52,14 @@ class Boite {
         Point center; //centre de la boîte
         Point center_mass; //centre de masse
         double mass;       //masse
-        Particule* particule; //référence vers une particule
+        Particule particule; //référence vers une particule
         Boite* fille; //pointeur vers la première boîte fille
         Boite* soeur;//pointeur vers la boîte soeur
 
         Boite(); 
         //constructeur d'une boîte vide terminale
 
-        Boite(Point c,int l,double m=0.);
+        Boite(Point c,int l,double m=0);
 
         ~Boite(); //destructeur
         void ajouter(Particule& p); //ajoute une particule dans la boite

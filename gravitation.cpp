@@ -32,11 +32,10 @@ ostream& operator<<(ostream& out, const Point& p)
 //=================================================================================
 //                        class Boite
 //=================================================================================
-Boite::Boite(Point c,int l,double m){
+Boite::Boite(Point c,int l,double m) : particule(c,0){
             level=l; center=c; center_mass=c;mass=m; 
             fille=nullptr;
             soeur=nullptr;
-            particule=Particule p (c,0.); 
         }
 
 //création des sous-boîtes
@@ -67,7 +66,7 @@ bool Boite::particule_in_boite(Particule& p){
 
 void Boite::ajouter(Particule& p){
     //condition si la position de la particule est bien dans la boîte 
-    if(particule_in_boite()){
+    if(particule_in_boite(p)){
 
         //Particule terminale ou non ? 
         if (fille==nullptr){//boîte terminale
@@ -83,9 +82,11 @@ void Boite::ajouter(Particule& p){
                 diviser_boite();
                 ajouter(p);
                 ajouter(particule);// on n'oublie pas d'ajouter la particule déjà présente dans la boîte}
+            }
         }
         else{
-            fille->ajouter(p);}
+            fille->ajouter(p);
+        }
     }  
 
     else {
@@ -98,7 +99,7 @@ void Boite::ajouter(Particule& p){
 
 void Boite::retirer(Particule& p){
     //condition si la position de la particule est bien dans la boîte 
-    if(particule_in_boite()){
+    if(particule_in_boite(p)){
         if(mass==p.masse){// la particule est la seule dans la boite
             //on supprime toutes les sous boites
             mass=0;
