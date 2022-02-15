@@ -35,6 +35,7 @@ class Particule
     //attributs
     Point position;
     double masse;
+    Vecteur
 
     //constructeur
     Particule(Point p,double m);
@@ -65,6 +66,7 @@ class Boite {
         void retirer(Particule& p); // retire une particule de la boite
         void diviser_boite();
         bool particule_in_boite(Particule& p);
+
 };
 
  

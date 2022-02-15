@@ -27,7 +27,7 @@ class Vecteur {
 		
 		bool operator<= (const Vecteur& Q) const;	// P <= Q
 		
-		// Pour éviter de devoir faire des accèsseurs
+		// Pour éviter de devoir faire des accesseurs
 		friend Vecteur operator+ (const Vecteur& P, const Vecteur& Q);	// ... = P + Q;
 		friend Vecteur operator+ (const Vecteur& P, double x);		// ... = P + x;
 		friend Vecteur operator- (const Vecteur& P, const Vecteur& Q);	// ... = P - Q;
