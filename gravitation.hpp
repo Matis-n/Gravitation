@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include "Vecteur.hpp"
+#include <list>
 using namespace std;
 
 extern const int taille;
@@ -35,6 +37,8 @@ class Particule
     //attributs
     Point position;
     double masse;
+    Vecteur vitesse(2,0.0);
+    Vecteur force(2,0.0);
 
     //constructeur
     Particule(Point p,double m):position(p), masse(m){
@@ -66,6 +70,7 @@ class Boite {
         void retirer(Particule& p); // retire une particule de la boite
         void diviser_boite();
         bool particule_in_boite(Particule& p);
+        Vecteur calcul_force(Particule P, double critere, double eps); //calcul force gravitationelle exercée par la boîte sur la particule 
 
 };
 

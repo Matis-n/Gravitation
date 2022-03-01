@@ -1,8 +1,12 @@
 #include <iostream>
 #include <cmath>
 #include "gravitation.hpp"
+#include "Vecteur.hpp"
+#include <list>
+
 
 const int taille=100;
+const double G=6.67*pow(10,-11);
 
 //=================================================================================
 //                            class Point
@@ -131,4 +135,24 @@ void Boite::retirer(Particule& p){
     }
 }
 
-void 
+ Vecteur Boite::calcul_force(Particule P, double critere, double eps){
+     //boîte vide ? 
+     if (mass==0){exit (-1);}
+     else {
+         Vecteur force(2,0.0);
+         double r= sqrt((center_mass.x-P.position.x)*(center_mass.x-P.position.x)+(center_mass.y-P.position.y)*(center_mass.y-P.position.y));//distance centre masse particule
+         double d=taille/pow(2,level+1);
+         Vecteur direction(2,0.0);
+         direction.val[0]=(center_mass.x-P.position.x)/r;
+        direction.val[1]=(center_mass.y-P.position.y)/r;
+
+         if (r/d>critere) { //boîte lointaine 
+            force=-((P.masse*mass*G)/(r*r+eps*eps))*direction;
+            return force;
+         }
+         else{
+             P.calcul_force(particule);
+         }
+          
+     }
+}
