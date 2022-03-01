@@ -32,6 +32,15 @@ ostream& operator<<(ostream& out, const Point& p)
 //=================================================================================
 //                        class Boite
 //=================================================================================
+Boite::Boite(): particule(c,0){
+    level=0;
+    center_mass=;
+    center=;
+    mass=0.;
+    fille=nullptr;
+    soeur=nullptr;
+}
+
 Boite::Boite(Point c,int l,double m) : particule(c,0){
             level=l; center=c; center_mass=c;mass=m; 
             fille=nullptr;
@@ -129,9 +138,13 @@ void Boite::retirer(Particule& p){
     }
 }
 
+<<<<<<< HEAD
 // Vecteur Particule::calcul_force(Particule P){
 //     double distance=abs(P.position-position);
 //     Point direction=(P.position-position)/distance;
 //     Vecteur force(2,0.0);
 
 // }
+=======
+void 
+>>>>>>> cfc49162ac01603c0bb198be7d4f8ed64f4859a4
