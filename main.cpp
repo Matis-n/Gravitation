@@ -9,5 +9,6 @@ int main(){
     Point P1(1,1);
     Particule part(P1,3);
     B.ajouter(part);
+    B.retirer(part);
     return 0;
 }

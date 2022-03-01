@@ -4,7 +4,8 @@
 #include <cmath>
 #include <vector>
 using namespace std;
-
+//nicolas kielbasievicz
+//nicolas.kielbasievicz@ensta-paris.fr
 extern const int taille;
 
 //=================================================================================
@@ -39,6 +40,7 @@ class Particule
     //constructeur
     Particule(Point p,double m):position(p), masse(m){
     };
+    Vecteur calcul_force(Particule P);
 };
 
 //=================================================================================
@@ -61,10 +63,11 @@ class Boite {
 
         Boite(Point c,int l,double m=0);
 
-        ~Boite(); //destructeur
+        //~Boite(); //destructeur
         void ajouter(Particule& p); //ajoute une particule dans la boite
         void retirer(Particule& p); // retire une particule de la boite
         void diviser_boite();
+        void supprimer_fille(); // supprime toutes les boites filles de la boîte
         bool particule_in_boite(Particule& p);
 
 };

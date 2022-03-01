@@ -97,6 +97,14 @@ void Boite::ajouter(Particule& p){
 
 }
 
+
+void Boite::supprimer_fille(){
+    if (fille!=nullptr){
+        fille->supprimer_fille();
+        fille=nullptr;
+    }
+}
+
 void Boite::retirer(Particule& p){
     //condition si la position de la particule est bien dans la boîte 
     if(particule_in_boite(p)){
@@ -104,11 +112,10 @@ void Boite::retirer(Particule& p){
             //on supprime toutes les sous boites
             mass=0;
             supprimer_fille();
-            fille=nullptr;
         }
         else{
             //on met a jour les masses va voir les sous boites
-            center_mass=1/(mass-p.masse)*(mass*center_mass.position+p.masse*p.position);//calcul nouveau centre de masse
+            center_mass=1/(mass-p.masse)*(mass*center_mass+p.masse*p.position);//calcul nouveau centre de masse
             mass-=p.masse; //nouvelle masse de la boîte de niveau plus faible
             //on va voir dans sa fille
             fille->retirer(p);
@@ -121,3 +128,10 @@ void Boite::retirer(Particule& p){
         }
     }
 }
+
+// Vecteur Particule::calcul_force(Particule P){
+//     double distance=abs(P.position-position);
+//     Point direction=(P.position-position)/distance;
+//     Vecteur force(2,0.0);
+
+// }
