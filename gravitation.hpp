@@ -52,7 +52,7 @@ class Boite {
         Point center; //centre de la boîte
         Point center_mass; //centre de masse
         double mass;       //masse
-        Particule particule; //référence vers une particule
+        Particule particule; // particule
         Boite* fille; //pointeur vers la première boîte fille
         Boite* soeur;//pointeur vers la boîte soeur
 

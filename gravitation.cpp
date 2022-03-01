@@ -32,6 +32,15 @@ ostream& operator<<(ostream& out, const Point& p)
 //=================================================================================
 //                        class Boite
 //=================================================================================
+Boite::Boite(): particule(c,0){
+    level=0;
+    center_mass=;
+    center=;
+    mass=0.;
+    fille=nullptr;
+    soeur=nullptr;
+}
+
 Boite::Boite(Point c,int l,double m) : particule(c,0){
             level=l; center=c; center_mass=c;mass=m; 
             fille=nullptr;
@@ -121,3 +130,5 @@ void Boite::retirer(Particule& p){
         }
     }
 }
+
+void 
