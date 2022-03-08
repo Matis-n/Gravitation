@@ -3,6 +3,8 @@
 #include "gravitation.hpp"
 
 const int taille=100;
+const double g = 9.8;
+const double epsilon = 0.1 ; 
 
 //=================================================================================
 //                            class Point
@@ -32,10 +34,10 @@ ostream& operator<<(ostream& out, const Point& p)
 //=================================================================================
 //                        class Boite
 //=================================================================================
-Boite::Boite(): particule(c,0){
+Boite::Boite(Point c) : particule(c,0){
     level=0;
-    center_mass=;
-    center=;
+    center_mass= c;
+    center= c;
     mass=0.;
     fille=nullptr;
     soeur=nullptr;
@@ -138,13 +140,32 @@ void Boite::retirer(Particule& p){
     }
 }
 
-<<<<<<< HEAD
-// Vecteur Particule::calcul_force(Particule P){
-//     double distance=abs(P.position-position);
-//     Point direction=(P.position-position)/distance;
-//     Vecteur force(2,0.0);
+/*Vecteur Particule::force_tot(Boite B){
+    if (B.particule_in_boite()){
+        return (this.force_tot(B.fille));
+    }
+    Vecteur f_tot(2,0.0);
+    distance=norme(B.center-position);
+    if (taille/distance<seuil){
+        return (f_tot + this.force_tot(B.soeur))
+    }
+    else{
+        return (f_tot + this.force_tot(B.soeur))
+    }
+}
+*/
 
-// }
-=======
-void 
->>>>>>> cfc49162ac01603c0bb198be7d4f8ed64f4859a4
+
+//calcul de la force exercée par P2 sur P1
+Vecteur calcul_force(Boite B1, Boite B2){
+    double distance=norme(B2.center_mass-B1.center_mass);
+    Point P = B2.center_mass-B1.center_mass;
+    Vecteur e_x(2,1);
+    Vecteur e_y(2,2);
+    Vecteur direction=1/distance*(P.x*e_x+P.y*e_y);
+    Vecteur force = B1.mass*g/(distance*distance+epsilon*epsilon)*direction ; 
+
+    return force;
+}
+
+
