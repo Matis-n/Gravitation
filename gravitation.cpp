@@ -1,10 +1,17 @@
 #include <iostream>
 #include <cmath>
 #include "gravitation.hpp"
+#include "Vecteur.hpp"
+#include <list>
+
 
 const int taille=100;
+<<<<<<< HEAD
 const double g = 9.8;
 const double epsilon = 0.1 ; 
+=======
+const double G=6.67*pow(10,-11);
+>>>>>>> 511857f6d2602f9723513de8c5ea2ecba383c724
 
 //=================================================================================
 //                            class Point
@@ -140,6 +147,7 @@ void Boite::retirer(Particule& p){
     }
 }
 
+
 /*Vecteur Particule::force_tot(Boite B){
     if (B.particule_in_boite()){
         return (this.force_tot(B.fille));
@@ -168,4 +176,35 @@ Vecteur calcul_force(Boite B1, Boite B2){
     return force;
 }
 
+
+
+
+ Vecteur Boite::calcul_force(Particule P, double critere, double eps){
+     //boîte vide ? 
+     if (mass==0){exit (-1);}
+     else {
+         Vecteur force(2,0.0);
+         double r= sqrt((center_mass.x-P.position.x)*(center_mass.x-P.position.x)+(center_mass.y-P.position.y)*(center_mass.y-P.position.y));//distance centre masse particule
+         double d=taille/pow(2,level+1);
+         Vecteur direction(2,0.0);
+         direction.val[0]=(center_mass.x-P.position.x)/r;
+        direction.val[1]=(center_mass.y-P.position.y)/r;
+
+         if (r/d>critere) { //boîte lointaine 
+            force=-((P.masse*mass*G)/(r*r+eps*eps))*direction;
+            return force;
+         }
+         else{
+             P.calcul_force(particule);
+         }
+          
+     }
+}
+
+ Vecteur Particule::calcul_force(Particule P){
+    double distance=abs(P.position-position);
+   Point direction=(P.position-position)/distance;
+   Vecteur force(2,0.0);
+
+}
 
