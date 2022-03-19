@@ -6,6 +6,7 @@
 #include "Vecteur.hpp"
 #include <list>
 using namespace std;
+#include "Vecteur.hpp"
 //nicolas kielbasievicz
 //nicolas.kielbasievicz@ensta-paris.fr
 extern const int taille;
@@ -44,8 +45,10 @@ class Particule
     //constructeur
     Particule(Point p,double m):position(p), masse(m){
     };
-    Vecteur calcul_force(Particule P);
+    
 };
+
+Vecteur calcul_force(Particule P1, Particule P2);
 
 //=================================================================================
 //                        class Boite
@@ -62,7 +65,7 @@ class Boite {
         Boite* fille; //pointeur vers la première boîte fille
         Boite* soeur;//pointeur vers la boîte soeur
 
-        Boite(); 
+        Boite(Point c); 
         //constructeur d'une boîte vide terminale
 
         Boite(Point c,int l,double m=0);

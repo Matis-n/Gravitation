@@ -6,6 +6,8 @@
 
 
 const int taille=100;
+const double g = 9.8;
+const double epsilon = 0.1 ; 
 const double G=6.67*pow(10,-11);
 
 //=================================================================================
@@ -171,11 +173,4 @@ Vecteur Boite::calcul_force(Particule P, double distance_threshold, double eps,V
          return soeur->calcul_force(P,distance_threshold,eps,actual_force); //si pas de particule on passe à la soeur 
          } 
 }
-
-
-//Vecteur Particule::calcul_force(Particule P){
-// }
-
-
-
 
