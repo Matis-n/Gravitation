@@ -36,19 +36,11 @@ ostream& operator<<(ostream& out, const Point& p)
 //=================================================================================
 //                        class Boite
 //=================================================================================
-Boite::Boite(): particule(c,0){
-    level=0;
-    center_mass=;
-    center=;
-    mass=0.;
-    fille=nullptr;
-    soeur=nullptr;
-}
 
 Boite::Boite(Point c,int l,double m) : particule(c,0){
-            level=l; center=c; center_mass=c;mass=m; 
-            fille=nullptr;
-            soeur=nullptr;
+    level=l; center=c; center_mass=c;mass=m; 
+    fille=nullptr;
+    soeur=nullptr;
         }
 
 //création des sous-boîtes
@@ -143,33 +135,47 @@ void Boite::retirer(Particule& p){
 }
 
 
- Vecteur Boite::calcul_force(Particule P, double critere, double eps){
-     //boîte vide ? 
-     if (mass==0){exit (-1);}
-     else {
-         Vecteur force(2,0.0);
-         double r= sqrt((center_mass.x-P.position.x)*(center_mass.x-P.position.x)+(center_mass.y-P.position.y)*(center_mass.y-P.position.y));//distance centre masse particule
-         double d=taille/pow(2,level+1);
-         Vecteur direction(2,0.0);
-         direction.val[0]=(center_mass.x-P.position.x)/r;
-        direction.val[1]=(center_mass.y-P.position.y)/r;
+Vecteur Boite::calcul_force(Particule P, double distance_threshold, double eps,Vecteur actual_force){
+    Vecteur force(actual_force); //initialisation vecteur force gravitaionelle par copie de la force actuelle
 
-         if (r/d>critere) { //boîte lointaine 
-            force=-((P.masse*mass*G)/(r*r+eps*eps))*direction;
-            return force;
-         }
-         else{
-             P.calcul_force(particule);
-         }
-          
-     }
+    if (mass!=0){ //on vérifie qu'il y a une particule dans la boîte
+        
+        double r= sqrt((center_mass.x-P.position.x)*(center_mass.x-P.position.x)+(center_mass.y-P.position.y)*(center_mass.y-P.position.y));//distance centre-masse boîte/particule
+        double d=taille/pow(2,level+1); //
+
+        if (r/d>=distance_threshold) { //si la boîte est éloignée => on fait le calcul approché 
+            force=actual_force-G*mass*P.masse/((d*d)+(r*r)) ;
+            if (soeur==nullptr) { return force;} 
+            else{return soeur->calcul_force(P, distance_threshold, eps,force);} //sinon on ajoute la force exercée par la boîte soeur 
+        }
+
+        else{ //si la boîte est proche => calcul exact sur les boîtes terminales de cette boîte 
+
+            if(fille!=nullptr){ //Si la boîte n'est pas terminale 
+                return fille->calcul_force(P,distance_threshold,eps,actual_force)+soeur->calcul_force(P,distance_threshold,eps,actual_force);
+            }
+
+
+            else { //Si la boîte est terminale 
+                if (soeur==nullptr){// critère d'arrêt si pas de boîte soeur
+                    return actual_force - G*mass*P.masse/((d*d)+(r*r));} 
+
+                else{ //la boîte possède une boîte soeur 
+                    force=actual_force -G*mass*P.masse/((d*d)+(r*r));
+                    return soeur->calcul_force(P, distance_threshold, eps,force);
+                }
+            }   
+        }
+    }
+    else {
+         return soeur->calcul_force(P,distance_threshold,eps,actual_force); //si pas de particule on passe à la soeur 
+         } 
 }
 
- Vecteur Particule::calcul_force(Particule P){
-    double distance=abs(P.position-position);
-   Point direction=(P.position-position)/distance;
-   Vecteur force(2,0.0);
 
-}
+//Vecteur Particule::calcul_force(Particule P){
+// }
+
+
 
 

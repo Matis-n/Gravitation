@@ -38,8 +38,8 @@ class Particule
     //attributs
     Point position;
     double masse;
-    Vecteur vitesse(2,0.0);
-    Vecteur force(2,0.0);
+    Vecteur vitesse;
+    Vecteur force;
 
     //constructeur
     Particule(Point p,double m):position(p), masse(m){
@@ -73,7 +73,7 @@ class Boite {
         void diviser_boite();
         void supprimer_fille(); // supprime toutes les boites filles de la boîte
         bool particule_in_boite(Particule& p);
-        Vecteur calcul_force(Particule P, double critere, double eps); //calcul force gravitationelle exercée par la boîte sur la particule 
+        Vecteur calcul_force(Particule P, double distance_threshold, double eps,Vecteur actual_force); //calcul force gravitationelle exercée par la boîte sur la particule 
 
 };
 
