@@ -10,5 +10,14 @@ int main(){
     Particule part(P1,3);
     B.ajouter(part);
     B.retirer(part);
+
+    //Initialisation particules 
+
+
+
     return 0;
+
+
+
+
 }

@@ -37,13 +37,14 @@ ostream& operator<<(ostream& out, const Point& p);
 class Particule
 { public:
     //attributs
-    Point position;
+    Vecteur position;
     double masse;
     Vecteur vitesse;
     Vecteur force;
 
     //constructeur
-    Particule(Point p,double m):position(p), masse(m){
+    Particule(Vecteur p,double m,Vecteur v):position(p), masse(m),vitesse(v){
+        force=Vecteur(2,0.0);
     };
     
 };
@@ -80,5 +81,8 @@ class Boite {
 
 };
 
- 
+
+void maj_forces(std::list<Particule> liste_particules,double distance_threshold,double eps);
+void maj_positions_vitesses(std::list<Particule> liste_particules);
+
 #endif
