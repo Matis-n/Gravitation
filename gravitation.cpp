@@ -145,7 +145,7 @@ Vecteur Boite::calcul_force(Particule P, double distance_threshold, double eps,V
 
     if (mass!=0){ //on vérifie qu'il y a une particule dans la boîte
         
-        double r= sqrt((center_mass.x-P.position.x)*(center_mass.x-P.position.x)+(center_mass.y-P.position.y)*(center_mass.y-P.position.y));//distance centre-masse boîte/particule
+        double r= sqrt((center_mass(1)-P.position(1))*(center_mass(1)-P.position(1))+(center_mass(2)-P.position(2))*(center_mass(2)-P.position(2)));//distance centre-masse boîte/particule
         double d=taille/pow(2,level+1); //
 
         if (r/d>=distance_threshold) { //si la boîte est éloignée => on fait le calcul approché 
