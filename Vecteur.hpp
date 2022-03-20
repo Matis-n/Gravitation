@@ -13,6 +13,7 @@ class Vecteur {
 		Vecteur(int dim=2, double x=0.0);
 		Vecteur(int dim, int i);
 		Vecteur(const Vecteur& P);
+
 		// ~Vecteur(); non nécessaire ici, d'après cpp.developpez.com
 		// Si la classe ne contient pas de destructeur par défaut, 
 		// alors le compilateur en génère un implicitement.
@@ -20,6 +21,7 @@ class Vecteur {
 		// puis celui des classes parents.
 		int dimension() const { return dim; }
 		
+		void operator()(const Vecteur& Q);
 		void operator+= (const Vecteur& Q);	// ... += Q;
 		void operator-= (const Vecteur& Q);	// ... -= Q;
 		void operator*= (double x);		// ... *= x;

@@ -22,7 +22,9 @@ Vecteur::Vecteur(const Vecteur& P) {
 	for(int i=0; i<dim; i++) this->val[i] = P.val[i];
 }
 
-
+void Vecteur::operator()(int i) {
+	return (val[i-1];)
+}
 
 void Vecteur::operator+= (const Vecteur& Q) {
 	for(int i=0; i<dim; i++) this->val[i] += Q.val[i];

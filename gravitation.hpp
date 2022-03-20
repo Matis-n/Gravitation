@@ -5,10 +5,19 @@
 #include <vector>
 #include "Vecteur.hpp"
 #include <list>
-using namespace std;
+#include <random>
 #include "Vecteur.hpp"
+
+using std::setprecision;
+using namespace std;
+
+
+
 //nicolas kielbasievicz
 //nicolas.kielbasievicz@ensta-paris.fr
+
+constexpr int FLOAT_MIN = 0;
+constexpr int FLOAT_MAX = 1;
 extern const int taille;
 
 //=================================================================================
