@@ -190,8 +190,8 @@ void maj_forces(std::list<Particule> liste_particules,double distance_threshold,
 void maj_positions_vitesses(std::list<Particule> liste_particules)
 {
     for ( it=liste_particules.begin();it!=liste_particules.end();it++){ 
-        it->vitesse=it->vitesse + (it->force/it->masse)*dt;
-        it->position=it->position+it->vitesse*dt;
+        it->vitesse=it->vitesse + dt/it->masse*it->force;
+        it->position=it->position+dt*it->vitesse;
     }
 }
 
