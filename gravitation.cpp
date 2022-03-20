@@ -6,12 +6,12 @@
 
 
 const int taille=100;
-<<<<<<< HEAD
+
 const double g = 9.8;
 const double epsilon = 0.1 ; 
-=======
+
 const double G=6.67*pow(10,-11);
->>>>>>> 511857f6d2602f9723513de8c5ea2ecba383c724
+
 
 //=================================================================================
 //                            class Point
@@ -41,16 +41,9 @@ ostream& operator<<(ostream& out, const Point& p)
 //=================================================================================
 //                        class Boite
 //=================================================================================
-Boite::Boite(Point c) : particule(c,0){
-    level=0;
-    center_mass= c;
-    center= c;
-    mass=0.;
-    fille=nullptr;
-    soeur=nullptr;
-}
 
-Boite::Boite(Point c,int l,double m) : particule(c,0){
+
+Boite::Boite(Vecteur c,int l,double m) : particule(c,0){
             level=l; center=c; center_mass=c;mass=m; 
             fille=nullptr;
             soeur=nullptr;
@@ -60,16 +53,16 @@ Boite::Boite(Point c,int l,double m) : particule(c,0){
 void Boite::diviser_boite(){
     double d=taille/pow(2,level+1);
 
-    Point c1(center.x-d,center.y+d);
+    Point c1(center(1)-d,center(2)+d);
     Boite B1(c1,level+1);
 
-    Point c2(center.x+d,center.y+d);
+    Point c2(center(1)+d,center(2)+d);
     Boite B2(c2,level+1);
 
-    Point c3(center.x+d,center.y-d);
+    Point c3(center(1)+d,center(2)-d);
     Boite B3(c3,level+1);
 
-    Point c4(center.x-d,center.y-d);
+    Point c4(center(1)-d,center(2)-d);
     Boite B4(c4,level+1);
 
     fille=&B1;
@@ -79,7 +72,7 @@ void Boite::diviser_boite(){
 }
 
 bool Boite::particule_in_boite(Particule& p){
-    return( (p.position.x>center.x-(taille/pow(2,level)))and  (p.position.x<center.x+(taille/pow(2,level)) ) and ( p.position.y>center.y-(taille/pow(2,level)) ) and (p.position.y<center.y+(taille/pow(2,level))) );
+    return( (p.position(1)>center(1)-(taille/pow(2,level)))and  (p.position(1)<center(1)+(taille/pow(2,level)) ) and ( p.position(2)>center(2)-(taille/pow(2,level)) ) and (p.position(2)<center(2)+(taille/pow(2,level))) );
 }
 
 void Boite::ajouter(Particule& p){
@@ -94,7 +87,7 @@ void Boite::ajouter(Particule& p){
                 center_mass=p.position;
             }
             else if (mass>0){ //boîte non vide
-                center_mass=p.position*p.masse+center_mass*mass/(mass+p.masse);//calcul nouveau centre de masse
+                center_mass=p.masse*p.position+mass/(mass+p.masse)*center_mass;//calcul nouveau centre de masse
                 mass+=p.masse; //nouvelle masse de la boîte de niveau plus faible
                 //création de nouvelles sous-boîtes
                 diviser_boite();
@@ -184,11 +177,11 @@ Vecteur calcul_force(Boite B1, Boite B2){
      if (mass==0){exit (-1);}
      else {
          Vecteur force(2,0.0);
-         double r= sqrt((center_mass.x-P.position.x)*(center_mass.x-P.position.x)+(center_mass.y-P.position.y)*(center_mass.y-P.position.y));//distance centre masse particule
+         double r= sqrt((center_mass(1)-P.position(1))*(center_mass(1)-P.position(1))+(center_mass(2)-P.position(2))*(center_mass(2)-P.position(2)));//distance centre masse particule
          double d=taille/pow(2,level+1);
          Vecteur direction(2,0.0);
-         direction.val[0]=(center_mass.x-P.position.x)/r;
-        direction.val[1]=(center_mass.y-P.position.y)/r;
+         direction.val[0]=(center_mass(1)-P.position(1))/r;
+        direction.val[1]=(center_mass(2)-P.position(2))/r;
 
          if (r/d>critere) { //boîte lointaine 
             force=-((P.masse*mass*G)/(r*r+eps*eps))*direction;
