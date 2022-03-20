@@ -3,6 +3,7 @@
 #include "gravitation.hpp"
 #include "Vecteur.hpp"
 #include <list>
+#include <random>
 
 
 const int taille=100;
