@@ -39,11 +39,13 @@ class Particule
     //attributs
     Vecteur position;
     double masse;
-    Vecteur vitesse(2,0.0);
-    Vecteur force(2,0.0);
+    Vecteur vitesse;
+    Vecteur force;
 
     //constructeur
-    Particule(Vecteur p,double m):position(p), masse(m){
+
+    Particule(Vecteur p,double m,Vecteur v):position(p), masse(m),vitesse(v){
+        force=Vecteur(2,0.0);
     };
     
 };
@@ -76,9 +78,12 @@ class Boite {
         void diviser_boite();
         void supprimer_fille(); // supprime toutes les boites filles de la boîte
         bool particule_in_boite(Particule& p);
-        Vecteur calcul_force(Particule P, double critere, double eps); //calcul force gravitationelle exercée par la boîte sur la particule 
+        Vecteur calcul_force(Particule P, double distance_threshold, double eps,Vecteur actual_force); //calcul force gravitationelle exercée par la boîte sur la particule 
 
 };
 
- 
+
+void maj_forces(std::list<Particule> liste_particules,double distance_threshold,double eps);
+void maj_positions_vitesses(std::list<Particule> liste_particules);
+
 #endif
