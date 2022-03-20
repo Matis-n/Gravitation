@@ -197,27 +197,28 @@ void maj_positions_vitesses(std::list<Particule> liste_particules)
 
 std::list<Particule> initialisation(int number_particules){
     std::list<Particule> liste_particules;
+    std::srand(std::time(nullptr));
     double x,y,z,X1,X2,X3,X4,X5,X6,X7,q,V,u,v,w;
-    X1=;
+    X1=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));
     double r=pow((pow(X1,-2/3)-1),-1/2);
     double Ve=sqrt(2)*pow((1+r*r),-1/4);
 
     for (int i=0;i<number_particules;i++){
-        X2=
-        X3=
+        X2=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));
+        X3=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));
         z=(1-2*X2)*r;
         x=sqrt(r*r-z*z)*cos(2*pi*X3);
         y=(r*r-z*z)*sin(2*pi*X3);
-        X4=
-        X5=
+        X4=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));
+        X5=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));
         if (X5<10*X4*X4*pow((1-X4*X4),7/2)){
             q=X4;
         }
         else {
-            X4=;X5=;
+            X4=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));X5=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));
         }
         V=q*Ve;
-        X6=;X7=;
+        X6=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));X7=FLOAT_MIN + (float)(rand()) / ((float)(RAND_MAX/(FLOAT_MAX - FLOAT_MIN)));
         w=(1-2*X6)*V;v=sqrt(V*V-w*w)*cos(2*pi*X7);u=sqrt(V*V-w*w)*sin(2*pi*X7);
         Vecteur e1(3,1);
         Vecteur e2(3,2);
