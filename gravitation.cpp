@@ -7,6 +7,7 @@
 
 
 const int taille=100;
+
 const double g = 9.8;
 const double epsilon = 0.1 ; 
 const double G=6.67*pow(10,-11);
@@ -41,26 +42,27 @@ ostream& operator<<(ostream& out, const Point& p)
 //                        class Boite
 //=================================================================================
 
-Boite::Boite(Point c,int l,double m) : particule(c,0){
-    level=l; center=c; center_mass=c;mass=m; 
-    fille=nullptr;
-    soeur=nullptr;
-        }
+
+Boite::Boite(Vecteur c,int l,double m) : particule(c,0){
+            level=l; center=c; center_mass=c;mass=m; 
+            fille=nullptr;
+            soeur=nullptr;
+
 
 //création des sous-boîtes
 void Boite::diviser_boite(){
     double d=taille/pow(2,level+1);
 
-    Point c1(center.x-d,center.y+d);
+    Point c1(center(1)-d,center(2)+d);
     Boite B1(c1,level+1);
 
-    Point c2(center.x+d,center.y+d);
+    Point c2(center(1)+d,center(2)+d);
     Boite B2(c2,level+1);
 
-    Point c3(center.x+d,center.y-d);
+    Point c3(center(1)+d,center(2)-d);
     Boite B3(c3,level+1);
 
-    Point c4(center.x-d,center.y-d);
+    Point c4(center(1)-d,center(2)-d);
     Boite B4(c4,level+1);
 
     fille=&B1;
@@ -70,7 +72,7 @@ void Boite::diviser_boite(){
 }
 
 bool Boite::particule_in_boite(Particule& p){
-    return( (p.position.x>center.x-(taille/pow(2,level)))and  (p.position.x<center.x+(taille/pow(2,level)) ) and ( p.position.y>center.y-(taille/pow(2,level)) ) and (p.position.y<center.y+(taille/pow(2,level))) );
+    return( (p.position(1)>center(1)-(taille/pow(2,level)))and  (p.position(1)<center(1)+(taille/pow(2,level)) ) and ( p.position(2)>center(2)-(taille/pow(2,level)) ) and (p.position(2)<center(2)+(taille/pow(2,level))) );
 }
 
 void Boite::ajouter(Particule& p){
@@ -85,7 +87,7 @@ void Boite::ajouter(Particule& p){
                 center_mass=p.position;
             }
             else if (mass>0){ //boîte non vide
-                center_mass=p.position*p.masse+center_mass*mass/(mass+p.masse);//calcul nouveau centre de masse
+                center_mass=p.masse*p.position+mass/(mass+p.masse)*center_mass;//calcul nouveau centre de masse
                 mass+=p.masse; //nouvelle masse de la boîte de niveau plus faible
                 //création de nouvelles sous-boîtes
                 diviser_boite();
@@ -163,6 +165,7 @@ Vecteur Boite::calcul_force(Particule P, double distance_threshold, double eps,V
             else { //Si la boîte est terminale 
                 if (soeur==nullptr){// critère d'arrêt si pas de boîte soeur
                     return actual_force - G*mass*P.masse/((d*d)+(r*r));} 
+
 
                 else{ //la boîte possède une boîte soeur 
                     force=actual_force -G*mass*P.masse/((d*d)+(r*r));

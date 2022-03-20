@@ -52,6 +52,7 @@ class Particule
     Vecteur force;
 
     //constructeur
+
     Particule(Vecteur p,double m,Vecteur v):position(p), masse(m),vitesse(v){
         force=Vecteur(2,0.0);
     };
@@ -68,17 +69,17 @@ Vecteur calcul_force(Particule P1, Particule P2);
 class Boite {
     public :
         int level; //niveau
-        Point center; //centre de la boîte
-        Point center_mass; //centre de masse
+        Vecteur center; //centre de la boîte
+        Vecteur center_mass; //centre de masse
         double mass;       //masse
         Particule particule; // particule
         Boite* fille; //pointeur vers la première boîte fille
         Boite* soeur;//pointeur vers la boîte soeur
 
-        Boite(Point c); 
+        Boite(Vecteur c); 
         //constructeur d'une boîte vide terminale
 
-        Boite(Point c,int l,double m=0);
+        Boite(Vecteur c,int l,double m=0);
 
         //~Boite(); //destructeur
         void ajouter(Particule& p); //ajoute une particule dans la boite
