@@ -43,24 +43,31 @@ void Boite::diviser_boite(){
 
     vector<double> c1;
     c1.push_back(center.at(0)-d); c1.push_back(center.at(1)+d);
-    Boite B1(c1,level+1);
+    Boite *B1 = new Boite(c1,level+1);
 
     vector<double> c2;
     c2.push_back(center.at(0)+d); c2.push_back(center.at(1)+d);     
-    Boite B2(c2,level+1);
+    Boite *B2 = new Boite(c2,level+1);
+    printf("c2 : %ld\n",c2.size());
+
 
     vector<double> c3;
     c3.push_back(center.at(0)+d); c3.push_back(center.at(1)-d);
-    Boite B3(c3,level+1);
+    Boite *B3 = new Boite(c3,level+1);
+    printf("c3 : %ld\n",c3.size());
+
 
     vector<double> c4;
     c4.push_back(center.at(0)-d); c4.push_back(center.at(1)-d);
-    Boite B4(c4,level+1);
+    Boite *B4 = new Boite(c4,level+1);
+    printf("c4 : %ld\n",c4.size());
+
+    B3->soeur=B4;
+    B2->soeur=B3;
+    B1->soeur=B2;
+    fille=B1;
     
-    fille=&B1;
-    B1.soeur=&B2;
-    B2.soeur=&B3;
-    B3.soeur=&B4;
+
     printf("creation_pass\n");
 }
 
@@ -69,8 +76,11 @@ bool Boite::particule_in_boite(Particule& p){
 }
 
 bool Boite::boite_in_boite(Boite B){
-    return( (B.center.at(0)>center.at(0)-(taille/pow(2,level)))&&(B.center.at(0)<center.at(0)+(taille/pow(2,level)) ) && ( B.center.at(1)>center.at(1)-(taille/pow(2,level)) ) && (B.center.at(1)<center.at(1)+(taille/pow(2,level))) );
-
+    printf("%ld\n",B.center.size());
+    printf("%ld\n",this->center.size());
+    bool resultat=(B.center.at(0)>center.at(0)-(taille/pow(2,level)))&&(B.center.at(0)<center.at(0)+(taille/pow(2,level)) ) && ( B.center.at(1)>center.at(1)-(taille/pow(2,level)) ) && (B.center.at(1)<center.at(1)+(taille/pow(2,level))) ;
+    printf("test_pass\n");
+    return resultat;
 }
 
 
@@ -100,7 +110,13 @@ void Boite::retirer(Particule& p,Boite B){
             mass-=p.masse; //nouvelle masse de la boîte de niveau plus faible
             //on va voir dans sa fille
             printf("maj_pass\n");
-            fille->retirer(p,B);
+            if(fille!=nullptr){
+                fille->retirer(p,B);
+            }
+            if(soeur!=nullptr){
+
+                soeur->retirer(p,B);
+            }
             printf("retirer_fin_pass\n");
         }
     }  
@@ -117,7 +133,7 @@ void Boite::ajouter(Particule& p){
     //condition si la position de la particule est bien dans la boîte 
     if(particule_in_boite(p)){
 
-        //Particule terminale ou non ? 
+        //Boite terminale ou non ? 
         if (fille==nullptr){//boîte terminale
             printf("ajout_pass\n");
             if (mass==0){ //boîte vide 
@@ -133,22 +149,28 @@ void Boite::ajouter(Particule& p){
                 //création de nouvelles sous-boîtes
                 diviser_boite();
                 printf("divis_pass\n");
+                printf("taille centre fille B0 : %ld\n",fille->soeur->center.size());
                 retirer(*particule,*this);
                 printf("retirer_pass\n");
                 fille->ajouter(p);
+                printf("fille_pass\n");
                 fille->ajouter(*particule);// on n'oublie pas d'ajouter la particule déjà présente dans la boîte}
             }
         }
-        else{
+        else{ //boite non terminale
             center_mass=p.masse*p.position+mass/(mass+p.masse)*center_mass;//calcul nouveau centre de masse
             mass+=p.masse; //nouvelle masse de la boîte de niveau plus faible
+            printf("else_fille\n");
             fille->ajouter(p);
         }
     }  
 
     else {
+        printf("else_ajouter_pass\n");
         if (soeur!=nullptr){
+            printf("taille soeur : %ld\n",soeur->center.size());
             soeur->ajouter(p);
+            printf("else_if_ajouter_pass\n");
         }
     }
 
@@ -157,13 +179,14 @@ void Boite::ajouter(Particule& p){
 vector<double> Boite::calcul_force(Particule P, double distance_threshold, double eps,vector<double> actual_force)  {
     vector<double> force=actual_force; //initialisation vecteur force gravitationelle par copie de la force actuelle
 
-    if (mass!=0){ //on vérifie qu'il y a une particule dans la boîte
-        
+    if (particule!=nullptr){ //on vérifie qu'il y a une particule dans la boîte
+        printf("if1\n");
         double r= sqrt((center_mass.at(0)-P.position.at(0))*(center_mass.at(0)-P.position.at(0))+(center_mass.at(1)-P.position.at(1))*(center_mass.at(1)-P.position.at(1)));//distance centre-masse boîte/particule
         double d=taille/pow(2,level+1); //
 
         if (r/d>=distance_threshold) { //si la boîte est éloignée => on fait le calcul approché 
             //force=actual_force+(-G)*mass*P.masse/((d*d)+(r*r)) ; // /!\ ON AJOUTE UN VECTEUR ET UN SCALAIRE, IL FAUT PROJETER LA FORCE EN FAIT COMME EN DESSOUS
+            printf("if2\n");
             force.at(0)=(center.at(0)-P.position.at(0)/r)*(-G)*mass*P.masse/((d*d)+(r*r))+actual_force.at(0);
             force.at(1)=(center.at(1)-P.position.at(1)/r)*(-G)*mass*P.masse/((d*d)+(r*r))+actual_force.at(1);
             if (soeur==nullptr) { return force;} 
@@ -172,12 +195,21 @@ vector<double> Boite::calcul_force(Particule P, double distance_threshold, doubl
 
         else{ //si la boîte est proche => calcul exact sur les boîtes terminales de cette boîte 
 
+            printf("else2\n");
             if(fille!=nullptr){ //Si la boîte n'est pas terminale 
-                return fille->calcul_force(P,distance_threshold,eps,actual_force)+soeur->calcul_force(P,distance_threshold,eps,actual_force);
+                printf("if3\n");
+                if (soeur==nullptr){
+                    printf("if4\n");
+                    return fille->calcul_force(P,distance_threshold,eps,actual_force);
+                }
+                else{
+                    return fille->calcul_force(P,distance_threshold,eps,actual_force)+soeur->calcul_force(P,distance_threshold,eps,actual_force);
+                }
             }
 
 
             else { //Si la boîte est terminale 
+                printf("else3\n");
                 if (soeur==nullptr){// critère d'arrêt si pas de boîte soeur
                     force.at(0)=actual_force.at(0)+(center.at(0)-P.position.at(0)/r)*(-G)*mass*P.masse/((d*d)+(r*r));
                     force.at(1)=actual_force.at(1)+(center.at(1)-P.position.at(1)/r)*(-G)*mass*P.masse/((d*d)+(r*r));
@@ -194,6 +226,7 @@ vector<double> Boite::calcul_force(Particule P, double distance_threshold, doubl
         }
     }
     else {
+         printf("else1\n");
          return soeur->calcul_force(P,distance_threshold,eps,actual_force); //si pas de particule on passe à la soeur 
          } 
 }

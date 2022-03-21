@@ -12,11 +12,11 @@
 #include "surcharge_vect.hpp"
 using namespace std;
 
-const int taille=100;
+const int taille=2;
 const double g = 9.8;
 const double epsilon = 0.1 ; 
-const double G=6.67*pow(10,-11);
-const double dt=0.1;
+const double G=1;
+const double dt=1;
 const double distance_threshold = 0.1;
 
 

@@ -11,6 +11,7 @@ std::list<Particule>::iterator it;
 void maj_forces(std::list<Particule> liste_particules,double distance_threshold,double eps,Boite B){ 
     vector<double> f(2); //vecteur nul
     for (it=liste_particules.begin();it!=liste_particules.end();it++){
+        printf("matis\n");
         it->force=B.calcul_force(*it,distance_threshold,eps,f);
     }
 }
@@ -18,6 +19,7 @@ void maj_forces(std::list<Particule> liste_particules,double distance_threshold,
 void maj_positions_vitesses(std::list<Particule> liste_particules)
 {
     for ( it=liste_particules.begin();it!=liste_particules.end();it++){ 
+        printf("Antoine\n");
         it->vitesse=it->vitesse + dt*(1/it->masse)*(it->force);
         it->position=it->position+dt*(it->vitesse);
     }
@@ -72,7 +74,7 @@ std::list<Particule> initialisation(int number_particules){
         vitesse.push_back(u);vitesse.push_back(v);vitesse.push_back(w);
         position.push_back(x);position.push_back(y);
         position.push_back(z);
-        liste_particules.push_back(Particule(1,position,vitesse));
+        liste_particules.push_back(Particule(1/number_particules,position,vitesse));
     }
     return liste_particules;
 }
@@ -80,7 +82,10 @@ std::list<Particule> initialisation(int number_particules){
 
 Boite init_boite(std::list<Particule> liste_particules){
     std::vector<double> V0(2);
+    
+
     Boite B0(V0);
+    printf("B0 : %ld\n",B0.center.size());
     for ( it=liste_particules.begin();it!=liste_particules.end();it++){ 
         printf("it_pass\n");
         B0.ajouter(*it);
