@@ -13,7 +13,10 @@
 using namespace std;
 
 extern const int taille=100;
-
+const double g = 9.8;
+const double epsilon = 0.1 ; 
+const double G=6.67*pow(10,-11);
+const double dt=0.1;
 
 
 class Boite {
@@ -36,11 +39,10 @@ class Boite {
         void diviser_boite();
         bool particule_in_boite(Particule& p);
         void ajouter(Particule& p); //ajoute une particule dans la boite
-        /*
-        void retirer(const Particule& p); // retire une particule de la boite
         void supprimer_fille(); // supprime toutes les boites filles de la boîte
+        void retirer(Particule& p); // retire une particule de la boite
         vector<double> calcul_force(Particule P, double distance_threshold, double eps,vector<double> actual_force); //calcul force gravitationelle exercée par la boîte sur la particule 
-*/
+
 };
 
 #endif

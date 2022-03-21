@@ -99,7 +99,7 @@ void Boite::ajouter(Particule& p){
 
 }
 
-/*
+
 void Boite::supprimer_fille(){
     if (fille!=nullptr){
         fille->supprimer_fille();
@@ -117,7 +117,7 @@ void Boite::retirer(Particule& p){
         }
         else{
             //on met a jour les masses va voir les sous boites
-            center_mass=1/(mass-p.masse)*(mass*center_mass+p.masse*p.position);//calcul nouveau centre de masse
+            center_mass=(1/(mass-p.masse))*(mass*center_mass+p.masse*p.position);//calcul nouveau centre de masse
             mass-=p.masse; //nouvelle masse de la boîte de niveau plus faible
             //on va voir dans sa fille
             fille->retirer(p);
@@ -132,16 +132,18 @@ void Boite::retirer(Particule& p){
 }
 
 
-Vecteur& Boite::calcul_force(Particule P, double distance_threshold, double eps,Vecteur& actual_force){
-    Vecteur& force(actual_force); //initialisation vecteur force gravitaionelle par copie de la force actuelle
+vector<double> Boite::calcul_force(Particule P, double distance_threshold, double eps,vector<double> actual_force){
+    vector<double> force=actual_force; //initialisation vecteur force gravitaionelle par copie de la force actuelle
 
     if (mass!=0){ //on vérifie qu'il y a une particule dans la boîte
         
-        double r= sqrt((center_mass(1)-P.position(1))*(center_mass(1)-P.position(1))+(center_mass(2)-P.position(2))*(center_mass(2)-P.position(2)));//distance centre-masse boîte/particule
+        double r= sqrt((center_mass.at(0)-P.position.at(0))*(center_mass.at(0)-P.position.at(0))+(center_mass.at(1)-P.position.at(1))*(center_mass.at(1)-P.position.at(1)));//distance centre-masse boîte/particule
         double d=taille/pow(2,level+1); //
 
         if (r/d>=distance_threshold) { //si la boîte est éloignée => on fait le calcul approché 
-            force=actual_force-G*mass*P.masse/((d*d)+(r*r)) ;
+            //force=actual_force+(-G)*mass*P.masse/((d*d)+(r*r)) ; // /!\ ON AJOUTE UN VECTEUR ET UN SCALAIRE, IL FAUT PROJETER LA FORCE EN FAIT COMME EN DESSOUS
+            force.at(0)=(center.at(0)-P.position.at(0)/r)*(-G)*mass*P.masse/((d*d)+(r*r))+actual_force.at(0);
+            force.at(1)=(center.at(1)-P.position.at(1)/r)*(-G)*mass*P.masse/((d*d)+(r*r))+actual_force.at(1);
             if (soeur==nullptr) { return force;} 
             else{return soeur->calcul_force(P, distance_threshold, eps,force);} //sinon on ajoute la force exercée par la boîte soeur 
         }
@@ -155,11 +157,15 @@ Vecteur& Boite::calcul_force(Particule P, double distance_threshold, double eps,
 
             else { //Si la boîte est terminale 
                 if (soeur==nullptr){// critère d'arrêt si pas de boîte soeur
-                    return actual_force - G*mass*P.masse/((d*d)+(r*r));} 
+                    force.at(0)=actual_force.at(0)+(center.at(0)-P.position.at(0)/r)*(-G)*mass*P.masse/((d*d)+(r*r));
+                    force.at(1)=actual_force.at(1)+(center.at(1)-P.position.at(1)/r)*(-G)*mass*P.masse/((d*d)+(r*r));
+                    return force;} 
 
 
                 else{ //la boîte possède une boîte soeur 
-                    force=actual_force -G*mass*P.masse/((d*d)+(r*r));
+                    force.at(0)=actual_force.at(0)+(center.at(0)-P.position.at(0)/r)*(-G)*mass*P.masse/((d*d)+(r*r));
+                    force.at(1)=actual_force.at(1)+(center.at(1)-P.position.at(1)/r)*(-G)*mass*P.masse/((d*d)+(r*r));
+                    //force=actual_force -G*mass*P.masse/((d*d)+(r*r));
                     return soeur->calcul_force(P, distance_threshold, eps,force);
                 }
             }   
@@ -169,4 +175,3 @@ Vecteur& Boite::calcul_force(Particule P, double distance_threshold, double eps,
          return soeur->calcul_force(P,distance_threshold,eps,actual_force); //si pas de particule on passe à la soeur 
          } 
 }
-*/
