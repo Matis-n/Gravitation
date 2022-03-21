@@ -6,18 +6,18 @@
 #include <vector>
 
 
-
+/*
 const double g = 9.8;
 const double epsilon = 0.1 ; 
 const double G=6.67*pow(10,-11);
-const double dt=0.1;
+const double dt=0.1;*/
 
 
-std::list<Particule>::const_iterator it;
-void maj_forces(std::list<Particule> liste_particules,double distance_threshold,double eps)
-{
-    for ( it=liste_particules.begin();it!=liste_particules.end();it++){
-        it->force=calcul_force(*it,distance_threshold,eps);
+std::list<Particule>::iterator it;
+void maj_forces(std::list<Particule> liste_particules,double distance_threshold,double eps,Boite B){ 
+    vector<double> f(2); //vecteur nul
+    for (it=liste_particules.begin();it!=liste_particules.end();it++){
+        it->force=B.calcul_force(*it,distance_threshold,eps,f);
     }
 }
 
@@ -28,7 +28,7 @@ void maj_positions_vitesses(std::list<Particule> liste_particules)
         it->position=it->position+it->vitesse*dt;
     }
 }
-
+/*
 std::list<Particule> initialisation(int number_particules){
     std::list<Particule> liste_particules;
     std::srand(std::time(nullptr));
@@ -63,3 +63,4 @@ std::list<Particule> initialisation(int number_particules){
         liste_particules.push_back(Particule(1,position,vitesse));
     }
 }
+*/

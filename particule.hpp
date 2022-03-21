@@ -20,7 +20,7 @@ class Particule
     vector<double> force;
 
     //constructeur
-    Particule(double m,vector<double> p,vector<double> v);
+    Particule(double m,vector<double>& p,vector<double>& v);
     
         
 };

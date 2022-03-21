@@ -132,8 +132,8 @@ void Boite::retirer(Particule& p){
 }
 
 
-vector<double> Boite::calcul_force(Particule P, double distance_threshold, double eps,vector<double> actual_force){
-    vector<double> force=actual_force; //initialisation vecteur force gravitaionelle par copie de la force actuelle
+vector<double> Boite::calcul_force(Particule P, double distance_threshold, double eps,vector<double> actual_force)  {
+    vector<double> force=actual_force; //initialisation vecteur force gravitationelle par copie de la force actuelle
 
     if (mass!=0){ //on vérifie qu'il y a une particule dans la boîte
         
