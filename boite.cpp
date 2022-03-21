@@ -4,6 +4,7 @@
 #include <list>
 #include "boite.hpp"
 
+
 std::vector<double> operator*(const double a,std::vector<double> B){
     for (std::size_t i =0;i<B.size();++i){
         B[i]=a*B[i];

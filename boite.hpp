@@ -19,6 +19,7 @@ const double G=6.67*pow(10,-11);
 const double dt=0.1;
 
 
+
 class Boite {
     public :
         //Attributs

@@ -1,16 +1,24 @@
 #include <iostream>
 #include <cmath>
-#include "gravitation.hpp"
 #include <list>
 #include <random>
 #include <vector>
+#include "gravitation.hpp"
 
 
-/*
-const double g = 9.8;
-const double epsilon = 0.1 ; 
-const double G=6.67*pow(10,-11);
-const double dt=0.1;*/
+
+std::vector<double> operator*(const double a,std::vector<double> B){
+    for (std::size_t i =0;i<B.size();++i){
+        B[i]=a*B[i];
+    }
+    return B;
+}
+std::vector<double> operator+(std::vector<double> A,std::vector<double> B){
+    for (std::size_t i =0;i<B.size();++i){
+        B[i]=A[i]+B[i];
+    }
+    return B;
+}
 
 
 std::list<Particule>::iterator it;
@@ -24,8 +32,8 @@ void maj_forces(std::list<Particule> liste_particules,double distance_threshold,
 void maj_positions_vitesses(std::list<Particule> liste_particules)
 {
     for ( it=liste_particules.begin();it!=liste_particules.end();it++){ 
-        it->vitesse=it->vitesse + (it->force/it->masse)*dt;
-        it->position=it->position+it->vitesse*dt;
+        it->vitesse=it->vitesse + dt*(1/it->masse)*(it->force);
+        it->position=it->position+dt*(it->vitesse);
     }
 }
 /*
