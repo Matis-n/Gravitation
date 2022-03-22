@@ -8,7 +8,7 @@
 const double pi=3.1415;
 
 std::list<Particule>::iterator it;
-void maj_forces(std::list<Particule> liste_particules,double distance_threshold,double eps,Boite B){ 
+void maj_forces(std::list<Particule>& liste_particules,double distance_threshold,double eps,Boite B){ 
     vector<double> f(2); //vecteur nul
     for (it=liste_particules.begin();it!=liste_particules.end();it++){
         printf("matis\n");
@@ -16,25 +16,33 @@ void maj_forces(std::list<Particule> liste_particules,double distance_threshold,
     }
 }
 
-void maj_positions_vitesses(std::list<Particule> liste_particules)
+void maj_positions_vitesses(std::list<Particule>& liste_particules)
 {
     for ( it=liste_particules.begin();it!=liste_particules.end();it++){ 
-        printf("Antoine\n");
-        it->vitesse=it->vitesse + dt*(1/it->masse)*(it->force);
+        ///printf("Antoine\n");
+        it->vitesse=it->vitesse + dt*(1.0/it->masse)*(it->force);
         it->position=it->position+dt*(it->vitesse);
     }
 }
 
-void maj_boites(Boite B,Boite B0){
+void maj_boites(Boite& B,Boite& B0){
     if (B.soeur!=nullptr){
+       //printf("if1\n");
         maj_boites(*B.soeur,B0);
+
     }
     if (B.fille!=nullptr){
+       //printf("if2\n");
         maj_boites(*B.fille,B0);
     }
     else {
-        if(B.particule!=nullptr){
-            if (!B.particule_in_boite(*B.particule)){
+       //printf("else2\n");
+        if(B.particule!=nullptr && B.particule->position.size()==2){
+           //printf("hugo\n");
+           //printf("%ld\n",B.particule->position.size());
+           //printf("%f\n",B.particule->position.at(0));
+            if (!(B.particule_in_boite(*B.particule))){
+               //printf("if4\n");
                 B0.retirer(*B.particule,B);
                 B0.ajouter(*B.particule);
             }  
@@ -74,7 +82,7 @@ std::list<Particule> initialisation(int number_particules){
         vitesse.push_back(u);vitesse.push_back(v);vitesse.push_back(w);
         position.push_back(x);position.push_back(y);
         position.push_back(z);
-        liste_particules.push_back(Particule(1/number_particules,position,vitesse));
+        liste_particules.push_back(Particule(1.0/number_particules,position,vitesse));
     }
     return liste_particules;
 }
@@ -85,9 +93,9 @@ Boite init_boite(std::list<Particule> liste_particules){
     
 
     Boite B0(V0);
-    printf("B0 : %ld\n",B0.center.size());
+    ///printf("B0 : %ld\n",B0.center.size());
     for ( it=liste_particules.begin();it!=liste_particules.end();it++){ 
-        printf("it_pass\n");
+        ///printf("it_pass\n");
         B0.ajouter(*it);
 
     }
